@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Tides Bookkeeping Client Portal</title>
+  <meta name="description" content="Secure client portal for Tides Bookkeeping clients — monthly reports, document uploads, and direct access to your bookkeeping team." />
+  <link rel="icon" type="image/png" href="/assets/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --teal:    #41cfd0;
+      --teal-lt: #e6f9f9;
+      --blue:    #66c1ee;
+      --navy:    #215197;
+      --navy-dk: #163872;
+      --ink:     #0f1c2e;
+      --body:    #4a5568;
+      --muted:   #94a3b8;
+      --border:  #e2eaf3;
+      --bg:      #ffffff;
+      --bg-alt:  #f7fbff;
+      --shadow:  0 1px 3px rgba(15,28,46,.06), 0 4px 16px rgba(15,28,46,.08);
+      --shadow-lg: 0 8px 40px rgba(15,28,46,.12);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-alt);
+      color: var(--ink);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .display { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.02em; line-height: 0.95; }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--teal) 0%, var(--blue) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .95rem 2rem; border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600; font-size: .95rem;
+      cursor: pointer; transition: all .2s ease;
+      border: 2px solid transparent;
+    }
+    .btn-primary { background: var(--navy); color: #fff; }
+    .btn-primary:hover { background: var(--navy-dk); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(33,81,151,.3); }
+    .btn-teal { background: var(--teal); color: var(--ink); font-weight: 700; }
+    .btn-teal:hover { background: #38bfc0; transform: translateY(-2px); }
+    .btn-outline { border-color: var(--border); color: var(--ink); background: #fff; }
+    .btn-outline:hover { border-color: var(--navy); color: var(--navy); }
+
+    /* Login hero */
+    .login-wrap {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem;
+      background:
+        radial-gradient(ellipse 60% 70% at 85% 20%, rgba(65,207,208,.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 15% 80%, rgba(102,193,238,.10) 0%, transparent 60%);
+    }
+    .login-card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 3rem 2.5rem;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .login-logo { height: 54px; margin: 0 auto 1.75rem; }
+    .login-card h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.6rem; line-height: 1;
+      color: var(--ink); margin-bottom: 1rem;
+    }
+    .login-card p { color: var(--body); margin-bottom: 2rem; font-size: 1rem; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--teal);
+      background: var(--teal-lt); border: 1px solid rgba(65,207,208,.25);
+      padding: 5px 14px; border-radius: 50px; margin-bottom: 1.5rem;
+    }
+    .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+
+    .signin-note {
+      margin-top: 1.5rem;
+      padding: 1rem 1.25rem;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: .85rem;
+      color: var(--body);
+      text-align: left;
+      line-height: 1.6;
+    }
+    .signin-note strong { color: var(--ink); }
+
+    .help-row {
+      display: flex; gap: .75rem; justify-content: center;
+      margin-top: 1.25rem; flex-wrap: wrap;
+      font-size: .85rem; color: var(--muted);
+    }
+    .help-row a { color: var(--navy); font-weight: 500; }
+
+    /* Footer */
+    footer {
+      padding: 2rem;
+      text-align: center;
+      font-size: .8rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      background: #fff;
+    }
+    footer a { color: var(--navy); }
+
+    /* Mobile */
+    @media (max-width: 520px) {
+      .login-card { padding: 2rem 1.5rem; }
+      .login-card h1 { font-size: 2.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<main class="login-wrap">
+  <div class="login-card">
+    <img src="/assets/logo.png" alt="Tides Bookkeeping" class="login-logo" />
+
+    <div class="eyebrow">
+      <span class="dot"></span>
+      Client Portal
+    </div>
+
+    <h1 class="display">Welcome.</h1>
+    <p>You've signed in successfully. Redirecting you to your portal...</p>
+
+    <div id="signed-in-view" style="display:none;">
+      <a id="portal-link" href="#" class="btn btn-primary" style="width:100%;justify-content:center;">
+        Enter My Portal →
+      </a>
+      <div class="signin-note">
+        <strong>Signed in as:</strong>
+        <span id="user-email"></span>
+      </div>
+    </div>
+
+    <div id="not-found-view" style="display:none;">
+      <p style="color:var(--body);margin-bottom:1.5rem;">
+        We couldn't find a portal for <strong id="unknown-email"></strong>.
+      </p>
+      <p style="font-size:.9rem;color:var(--muted);margin-bottom:1.5rem;">
+        If you think this is a mistake, please contact us and we'll get you set up.
+      </p>
+      <a href="mailto:support@tidesbookkeeping.com?subject=Portal Access Request" class="btn btn-primary" style="width:100%;justify-content:center;">
+        Contact Support
+      </a>
+    </div>
+
+    <div class="help-row">
+      <a href="https://tidesbookkeeping.com/contact" target="_top">Need help?</a>
+      <span>·</span>
+      <a href="mailto:support@tidesbookkeeping.com">support@tidesbookkeeping.com</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2026 Tides Bookkeeping LLC. All rights reserved.</p>
+</footer>
+
+<!-- Client routing logic -->
+<script>
+  // Map each authorized email to its client portal slug
+  // ADD NEW CLIENTS HERE when you add them to Cloudflare Access
+  const CLIENT_MAP = {
+    // email → client slug (auto-generated — do not edit manually)
+    "acme@example.com": "acme-corp",
+    "beta@example.com": "beta-llc",
+  };
+
+  // Read authenticated email from Cloudflare Access JWT cookie
+  // Cloudflare Access passes the authenticated email in the CF_Authorization cookie as a JWT
+  function getAuthenticatedEmail() {
+    // Decode CF_Authorization JWT to get email
+    const cookies = document.cookie.split(';').reduce((acc, c) => {
+      const [k, v] = c.trim().split('=');
+      acc[k] = v;
+      return acc;
+    }, {});
+    const token = cookies['CF_Authorization'];
+    if (!token) return null;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.email || payload.identity_nonce || null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  const email = getAuthenticatedEmail();
+  const signedInView = document.getElementById('signed-in-view');
+  const notFoundView = document.getElementById('not-found-view');
+
+  if (email) {
+    const slug = CLIENT_MAP[email.toLowerCase()];
+    if (slug) {
+      // Auto-redirect after brief delay
+      setTimeout(() => { window.location.href = `/clients/${slug}/`; }, 500);
+      // Also show manual link as fallback
+      document.getElementById('portal-link').href = `/clients/${slug}/`;
+      document.getElementById('user-email').textContent = email;
+      signedInView.style.display = 'block';
+    } else {
+      document.getElementById('unknown-email').textContent = email;
+      notFoundView.style.display = 'block';
+    }
+  } else {
+    // Not yet authenticated — shouldn't happen if Cloudflare Access is protecting this page,
+    // but as a fallback, just show the manual sign-in prompt
+    document.querySelector('.login-card p').textContent = 'Please sign in to continue.';
+  }
+</script>
+
+</body>
+</html>

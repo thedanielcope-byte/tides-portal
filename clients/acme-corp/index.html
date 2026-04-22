@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Acme Corp — Tides Client Portal</title>
+  <link rel="icon" type="image/png" href="/assets/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --teal:    #41cfd0;
+      --teal-lt: #e6f9f9;
+      --blue:    #66c1ee;
+      --blue-lt: #e8f4fd;
+      --navy:    #215197;
+      --navy-dk: #163872;
+      --ink:     #0f1c2e;
+      --body:    #4a5568;
+      --muted:   #94a3b8;
+      --border:  #e2eaf3;
+      --bg:      #ffffff;
+      --bg-alt:  #f7fbff;
+      --shadow:  0 1px 3px rgba(15,28,46,.06), 0 4px 16px rgba(15,28,46,.08);
+      --shadow-lg: 0 8px 40px rgba(15,28,46,.12);
+      --r:       16px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-alt);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .display { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.02em; line-height: 0.95; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--teal);
+      background: var(--teal-lt); border: 1px solid rgba(65,207,208,.25);
+      padding: 5px 12px; border-radius: 50px;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--teal) 0%, var(--blue) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+    /* ── TOP BAR ────────────────────────────────────── */
+    .top-bar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,.95);
+    }
+    .top-bar-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1100px; margin: 0 auto;
+      padding: .9rem 2rem;
+    }
+    .logo-wrap { display: flex; align-items: center; gap: .75rem; }
+    .logo-wrap img { height: 38px; }
+    .logo-label {
+      font-size: .7rem; font-weight: 600; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .12em;
+      padding-left: .75rem; border-left: 1px solid var(--border);
+      display: none;
+    }
+    @media (min-width: 640px) { .logo-label { display: block; } }
+
+    .nav-actions { display: flex; align-items: center; gap: 1rem; }
+    .nav-actions a { font-size: .85rem; color: var(--body); font-weight: 500; }
+    .nav-actions a:hover { color: var(--navy); }
+    .logout-btn {
+      font-size: .8rem; color: var(--muted);
+      padding: .5rem .9rem; border-radius: 50px;
+      border: 1px solid var(--border); background: #fff;
+      cursor: pointer; transition: all .2s;
+    }
+    .logout-btn:hover { border-color: var(--navy); color: var(--navy); }
+
+    /* ── HERO ───────────────────────────────────────── */
+    .hero {
+      padding: 3.5rem 0 2rem;
+      background:
+        radial-gradient(ellipse 60% 70% at 85% 20%, rgba(65,207,208,.1) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 15% 80%, rgba(102,193,238,.08) 0%, transparent 60%);
+    }
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      line-height: 1; margin: 1rem 0 .75rem;
+      color: var(--ink);
+    }
+    .hero p {
+      color: var(--body); font-size: 1.05rem;
+      max-width: 580px;
+    }
+
+    /* ── QUICK ACTIONS ──────────────────────────────── */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0 4rem;
+    }
+    .action-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.5rem;
+      transition: all .2s;
+      cursor: pointer;
+      display: block;
+      text-align: left;
+    }
+    .action-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--teal);
+    }
+    .action-card .icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      background: var(--teal-lt);
+      margin-bottom: 1rem;
+    }
+    .action-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: .35rem; }
+    .action-card p { font-size: .85rem; color: var(--body); }
+
+    /* ── SECTIONS ───────────────────────────────────── */
+    .section { padding: 3rem 0; }
+    .section-header { margin-bottom: 2rem; }
+    .section-header h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem; line-height: 1;
+      color: var(--ink);
+      letter-spacing: .02em;
+    }
+    .section-header p { color: var(--body); margin-top: .5rem; font-size: .95rem; }
+
+    /* ── REPORTS ────────────────────────────────────── */
+    .reports-card {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: var(--r); padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+    .year-tabs { display: flex; gap: .5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .year-tab {
+      padding: .5rem 1.1rem; border-radius: 50px;
+      border: 1px solid var(--border); background: #fff;
+      font-size: .85rem; font-weight: 600; color: var(--body);
+      cursor: pointer; transition: all .2s;
+    }
+    .year-tab.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .year-tab:hover:not(.active) { border-color: var(--navy); color: var(--navy); }
+
+    .month-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: .75rem;
+    }
+    .month-card {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      transition: all .2s;
+      cursor: pointer;
+      display: block;
+    }
+    .month-card:hover {
+      background: var(--teal-lt);
+      border-color: var(--teal);
+      transform: translateY(-2px);
+    }
+    .month-card .month-label { font-weight: 700; font-size: .9rem; color: var(--ink); }
+    .month-card .month-status {
+      font-size: .7rem; color: var(--muted);
+      margin-top: .25rem; text-transform: uppercase; letter-spacing: .05em;
+    }
+    .month-card.available .month-status { color: var(--teal); font-weight: 700; }
+    .month-card.pending { opacity: .5; cursor: not-allowed; }
+
+    .reports-note {
+      margin-top: 1.5rem; padding: 1rem 1.25rem;
+      background: var(--bg-alt); border-left: 3px solid var(--teal);
+      border-radius: 6px;
+      font-size: .85rem; color: var(--body);
+    }
+    .reports-note strong { color: var(--ink); }
+
+    /* ── UPLOAD ─────────────────────────────────────── */
+    .upload-card {
+      background: linear-gradient(135deg, var(--navy) 0%, #1a3d7a 100%);
+      color: #fff;
+      border-radius: var(--r); padding: 2.5rem;
+      position: relative; overflow: hidden;
+    }
+    .upload-card::before {
+      content: '';
+      position: absolute; top: -40%; right: -10%;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(65,207,208,.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .upload-card h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem; margin-bottom: .5rem;
+      position: relative;
+    }
+    .upload-card p { opacity: .9; margin-bottom: 1.5rem; position: relative; max-width: 560px; }
+    .upload-card .btn-teal { position: relative; }
+    .upload-instructions {
+      margin-top: 2rem; padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,.15);
+      position: relative;
+    }
+    .upload-instructions h4 {
+      font-size: .78rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; opacity: .75;
+      margin-bottom: .75rem;
+    }
+    .upload-instructions ul { padding-left: 1.25rem; }
+    .upload-instructions li { font-size: .88rem; margin-bottom: .35rem; opacity: .9; }
+
+    /* ── INTEGRATIONS ───────────────────────────────── */
+    .integration-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .integration-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.75rem;
+      transition: all .2s;
+    }
+    .integration-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    .integration-card .header {
+      display: flex; align-items: center; gap: .75rem; margin-bottom: .75rem;
+    }
+    .integration-card .logo-box {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--bg-alt);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; font-weight: 700;
+    }
+    .integration-card h3 { font-size: 1.1rem; font-weight: 700; }
+    .integration-card p { color: var(--body); font-size: .88rem; margin: .5rem 0 1.25rem; }
+    .integration-card .btn { width: 100%; justify-content: center; }
+
+    /* ── ONBOARDING VIDEOS ─────────────────────────── */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+    .video-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      transition: all .2s;
+    }
+    .video-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    .video-thumb {
+      aspect-ratio: 16/9;
+      background: var(--bg-alt);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--teal) 100%);
+    }
+    .video-thumb::after {
+      content: '▶';
+      color: #fff;
+      font-size: 3rem;
+      opacity: .9;
+    }
+    .video-info { padding: 1.1rem 1.25rem; }
+    .video-info h4 { font-size: 1rem; font-weight: 700; margin-bottom: .25rem; }
+    .video-info .meta { font-size: .78rem; color: var(--muted); }
+
+    .coming-soon-badge {
+      display: inline-block;
+      font-size: .7rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--muted);
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      padding: .35rem .75rem; border-radius: 50px;
+      margin-top: .5rem;
+    }
+
+    /* ── CONTACT ────────────────────────────────────── */
+    .contact-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+    @media (max-width: 720px) {
+      .contact-card { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+    .contact-info h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; margin-bottom: .5rem; }
+    .contact-info p { color: var(--body); font-size: .95rem; margin-bottom: 1.25rem; }
+    .contact-details { list-style: none; padding: 0; margin: 0; }
+    .contact-details li {
+      padding: .5rem 0;
+      display: flex; align-items: center; gap: .75rem;
+      font-size: .92rem;
+    }
+    .contact-details .label {
+      font-size: .75rem; text-transform: uppercase; letter-spacing: .08em;
+      color: var(--muted); font-weight: 600;
+      min-width: 80px;
+    }
+    .contact-details a { color: var(--navy); font-weight: 500; }
+    .contact-details a:hover { text-decoration: underline; }
+    .contact-cta .btn { width: 100%; justify-content: center; }
+    .contact-cta .btn + .btn { margin-top: .75rem; }
+
+    /* ── FOOTER ─────────────────────────────────────── */
+    footer {
+      padding: 2.5rem 2rem;
+      text-align: center;
+      font-size: .8rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      background: #fff;
+      margin-top: 4rem;
+    }
+    footer a { color: var(--navy); }
+
+    /* ── BUTTONS ────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .85rem 1.75rem; border-radius: 50px;
+      font-weight: 600; font-size: .9rem; cursor: pointer;
+      transition: all .2s ease; border: 2px solid transparent;
+      text-decoration: none;
+    }
+    .btn-primary { background: var(--navy); color: #fff; }
+    .btn-primary:hover { background: var(--navy-dk); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(33,81,151,.3); }
+    .btn-teal { background: var(--teal); color: var(--ink); font-weight: 700; }
+    .btn-teal:hover { background: #38bfc0; transform: translateY(-2px); }
+    .btn-outline { border-color: var(--border); color: var(--ink); background: #fff; }
+    .btn-outline:hover { border-color: var(--navy); color: var(--navy); }
+    .btn-lg { padding: 1rem 2.2rem; font-size: 1rem; }
+
+    /* Mobile notice banner for financial reports */
+    .mobile-notice {
+      display: none;
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      color: #78350f;
+      padding: .85rem 1.25rem;
+      border-radius: 12px;
+      font-size: .85rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 640px) { .mobile-notice { display: block; } }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <div class="logo-wrap">
+      <a href="/">
+        <img src="/assets/logo.png" alt="Tides Bookkeeping" />
+      </a>
+      <span class="logo-label">Client Portal</span>
+    </div>
+    <div class="nav-actions">
+      <a href="#contact">Help</a>
+      <a href="/cdn-cgi/access/logout" class="logout-btn">Sign Out</a>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow">
+      <span style="width:6px;height:6px;border-radius:50%;background:var(--teal);"></span>
+      Acme Corp
+    </div>
+    <h1>Welcome back,<br/><span class="gradient-text">Acme</span>.</h1>
+    <p>Your financial reports, documents, and dedicated bookkeeping team — all in one place.</p>
+  </div>
+</section>
+
+<!-- QUICK ACTIONS -->
+<div class="container">
+  <div class="quick-actions">
+    <a href="#reports" class="action-card">
+      <div class="icon">📊</div>
+      <h3>Financial Reports</h3>
+      <p>View and download your monthly statements</p>
+    </a>
+    <a href="#upload" class="action-card">
+      <div class="icon">📤</div>
+      <h3>Upload Documents</h3>
+      <p>Send us receipts, invoices, or other records</p>
+    </a>
+    <a href="#contact" class="action-card">
+      <div class="icon">💬</div>
+      <h3>Contact Tides</h3>
+      <p>Message your bookkeeper or schedule a call</p>
+    </a>
+  </div>
+</div>
+
+<!-- MONTHLY REPORTS -->
+<section id="reports" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Monthly Reports</h2>
+      <p>Your P&L, balance sheet, cash flow, and executive summary — delivered monthly.</p>
+    </div>
+
+    <div class="mobile-notice">
+      💻 <strong>Desktop recommended:</strong> Report viewing and downloads work best on a laptop or desktop computer.
+    </div>
+
+    <div class="reports-card">
+      <div class="year-tabs">
+        <button class="year-tab active" data-year="2026">2026</button>
+        <button class="year-tab" data-year="2025" style="display:none;">2025</button>
+      </div>
+
+      <div class="month-grid" id="month-grid-2026">
+        <!-- Months are auto-populated. Mark as "available" when you upload reports -->
+        <a href="https://1drv.ms/f/s!example-acme-reports" target="_blank" class="month-card available">
+          <div class="month-label">January</div>
+          <div class="month-status">View Reports →</div>
+        </a>
+        <a href="https://1drv.ms/f/s!example-acme-reports" target="_blank" class="month-card available">
+          <div class="month-label">February</div>
+          <div class="month-status">View Reports →</div>
+        </a>
+        <a href="https://1drv.ms/f/s!example-acme-reports" target="_blank" class="month-card available">
+          <div class="month-label">March</div>
+          <div class="month-status">View Reports →</div>
+        </a>
+        <div class="month-card pending">
+          <div class="month-label">April</div>
+          <div class="month-status">Coming soon</div>
+        </div>
+        <div class="month-card pending">
+          <div class="month-label">May</div>
+          <div class="month-status">—</div>
+        </div>
+        <div class="month-card pending">
+          <div class="month-label">June</div>
+          <div class="month-status">—</div>
+        </div>
+        <div class="month-card pending">
+          <div class="month-label">July</div>
+          <div class="month-status">—</div>
+        </div>
+        <div class="month-card pending">
+          <div class="month-label">August</div>
+          <div class="month-status">—</div>
+        </div>
+        <div class="month-card pending">
+          <div class="month-label">September</div>
+          <div class="month-status">—</div>
+        </div>
+        <div class="month-card pending">
+          <div class="month-label">October</div>
+          <div class="month-status">—</div>
+        </div>
+        <div class="month-card pending">
+          <div class="month-label">November</div>
+          <div class="month-status">—</div>
+        </div>
+        <div class="month-card pending">
+          <div class="month-label">December</div>
+          <div class="month-status">—</div>
+        </div>
+      </div>
+
+      <div class="reports-note">
+        <strong>How to access:</strong> Click any month to open the secure OneDrive folder. You can preview or download individual files. Reports are typically posted within 5 business days of month-end.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UPLOAD DOCUMENTS -->
+<section id="upload" class="section">
+  <div class="container">
+    <div class="upload-card">
+      <div class="eyebrow" style="background:rgba(65,207,208,.15);border-color:rgba(65,207,208,.3);color:var(--teal);">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--teal);"></span>
+        Upload Documents
+      </div>
+      <h3 style="margin-top:.85rem;">Send us what you need to.</h3>
+      <p>Upload receipts, invoices, or any supporting documents directly to your secure Tides folder. We're notified the moment your files land and review within 1-2 business days.</p>
+
+      <a href="https://onedrive.live.com/request-files/example-acme-upload" target="_blank" class="btn btn-teal btn-lg">
+        Upload to Tides →
+      </a>
+
+      <div class="upload-instructions">
+        <h4>Use this section to share:</h4>
+        <ul>
+          <li>Receipts for cash or card transactions</li>
+          <li>Vendor invoices not paid through a business account</li>
+          <li>Loan documents or financing agreements</li>
+          <li>Contractor agreements or W-9 forms</li>
+          <li>Any documents specifically requested by your Tides team</li>
+        </ul>
+        <p style="font-size:.82rem;opacity:.8;margin-top:1rem;">
+          💡 Most data syncs automatically from bank feeds — uploads are rarely needed except during onboarding or for specific one-off items.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE DASHBOARDS & INTEGRATIONS -->
+<section id="integrations" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Your Live Dashboards</h2>
+      <p>Real-time access to your financial data and payroll.</p>
+    </div>
+
+    <div class="integration-grid">
+      <!-- PUZZLE.IO -->
+      <div class="integration-card">
+        <div class="header">
+          <div class="logo-box" style="background:#f0eefd;color:#5b47fb;">🧩</div>
+          <div>
+            <h3>Puzzle.io Dashboard</h3>
+            <div style="font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;">Real-time financials</div>
+          </div>
+        </div>
+        <p>Track revenue, expenses, cash flow, and custom metrics live. Your dashboard updates as transactions sync from your bank.</p>
+        <a href="https://app.puzzle.io/a/acme-corp" target="_blank" class="btn btn-primary">Open Puzzle →</a>
+      </div>
+
+      <!-- PAYROLL (conditional - remove if not enrolled) -->
+      <div class="integration-card" id="payroll-card">
+        <div class="header">
+          <div class="logo-box" style="background:#fef3c7;color:#d97706;">💰</div>
+          <div>
+            <h3>Payroll (Gusto)</h3>
+            <div style="font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;">Run payroll, manage team</div>
+          </div>
+        </div>
+        <p>Run payroll, manage employee documents, and view pay stubs. We handle the bookkeeping side behind the scenes.</p>
+        <a href="https://app.gusto.com/login" target="_blank" class="btn btn-primary">Open Gusto →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ONBOARDING VIDEOS -->
+<section id="onboarding" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Getting Started</h2>
+      <p>Short walkthroughs for everything you need to know.</p>
+    </div>
+
+    <div class="video-grid">
+      <div class="video-card">
+        <div class="video-thumb"></div>
+        <div class="video-info">
+          <h4>Welcome to Tides</h4>
+          <div class="meta">Coming soon · 3 min</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb"></div>
+        <div class="video-info">
+          <h4>How to Upload Documents</h4>
+          <div class="meta">Coming soon · 2 min</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb"></div>
+        <div class="video-info">
+          <h4>Reading Your Monthly Reports</h4>
+          <div class="meta">Coming soon · 5 min</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <div class="container">
+    <div class="contact-card">
+      <div class="contact-info">
+        <div class="eyebrow"><span style="width:6px;height:6px;border-radius:50%;background:var(--teal);"></span>Support</div>
+        <h3 style="margin-top:.75rem;">Need Help?</h3>
+        <p>Your dedicated bookkeeping team is one click away. Use the chat bubble below, email us, or book a call.</p>
+        <ul class="contact-details">
+          <li>
+            <span class="label">Email</span>
+            <a href="mailto:support@tidesbookkeeping.com">support@tidesbookkeeping.com</a>
+          </li>
+          <li>
+            <span class="label">Phone</span>
+            <a href="tel:8645592686">(864) 559-2686</a>
+          </li>
+          <li>
+            <span class="label">Hours</span>
+            <span style="color:var(--body);">Mon–Fri, 9am–5pm ET</span>
+          </li>
+          <li>
+            <span class="label">Response</span>
+            <span style="color:var(--body);">Within 4-6 business hours</span>
+          </li>
+        </ul>
+      </div>
+      <div class="contact-cta">
+        <a href="https://api.leadconnectorhq.com/widget/booking/1WyrZDhnArNyiiwT2GQQ" target="_blank" class="btn btn-primary btn-lg">Schedule a Call</a>
+        <a href="mailto:support@tidesbookkeeping.com?subject=Question from Acme Corp" class="btn btn-outline btn-lg">Email Your Bookkeeper</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Tides Bookkeeping LLC · <a href="https://tidesbookkeeping.com/privacy" target="_blank">Privacy</a> · <a href="https://tidesbookkeeping.com/terms" target="_blank">Terms</a></p>
+</footer>
+
+<!-- GoHighLevel Chat Widget -->
+<!-- Replace this script tag with your actual GHL chat widget embed code -->
+<script src="https://widgets.leadconnectorhq.com/loader.js" data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" data-widget-id="REPLACE_WITH_YOUR_GHL_WIDGET_ID"></script>
+
+</body>
+</html>
