@@ -55,8 +55,14 @@ tides-portal/
    - `email` — Client's login email
    - `reports_url` — OneDrive share link to their Reports folder (read-only)
    - `upload_url` — OneDrive "Request Files" link to their Uploads folder
-   - `puzzle_url` — Their Puzzle.io dashboard URL
-   - `payroll_url` — Gusto URL (blank if not enrolled)
+   - `quick_links` — Pipe-separated label/URL pairs joined by `;`. See format below.
+
+   **Quick links format:** `Label|URL;Label|URL;Label|URL` — wrapped in double-quotes.
+   Example:
+   ```
+   "QuickBooks Online|https://qbo.intuit.com/app/123;Puzzle Dashboard|https://app.puzzle.io/a/acme;Annual Tax Filings|https://1drv.ms/f/s!acme-tax"
+   ```
+   Icons are auto-matched by label keyword (QuickBooks → 📊, Puzzle → 🧩, Tax → 📑, etc.). To customize, edit `QUICK_LINK_ICONS` in `add-client.py`.
 
 2. Run the generator:
    ```
@@ -88,13 +94,34 @@ tides-portal/
    Your portal has:
    • Monthly financial reports
    • Secure document upload (for receipts, invoices, etc.)
-   • A live Puzzle.io dashboard
+   • Quick links to your dashboards and tax documents
    • Direct chat with your bookkeeper
 
    Let us know if you need anything!
 
    — Tides Bookkeeping
    ```
+
+## Editing an existing client
+
+You have two options:
+
+**Option A — Edit the CSV (recommended for routine changes)**
+1. Open `_scripts/clients.csv`
+2. Find the client's row, edit any value
+3. Run `python3 _scripts/add-client.py --csv` (regenerates ALL clients from CSV)
+4. Push: `git add -A && git commit -m "Update [client name]" && git push`
+
+**Option B — Edit the client's HTML directly (for one-off tweaks)**
+1. Open `clients/{slug}/index.html` in a text editor
+2. Search for the value you want to change (e.g., the QuickBooks URL)
+3. Edit + save
+4. Push
+
+Note: if you edit the HTML directly, your changes will be **overwritten** the next time someone runs the generator with `--csv`. So always sync changes back to `clients.csv` if you want them to persist.
+
+**Option C — Ask Claude**
+Just say: "Update Acme Corp's QuickBooks URL to https://..." and I'll handle it.
 
 ## First-time setup
 
