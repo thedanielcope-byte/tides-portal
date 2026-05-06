@@ -80,25 +80,34 @@ def parse_quick_links(raw: str) -> list[dict]:
     return items
 
 
-def render_quick_links_html(links: list[dict]) -> str:
-    """Build the HTML for the Quick Links cards section."""
+def render_quick_link_tiles(links: list[dict]) -> str:
+    """Build the HTML for quick-link action cards (top tile grid)."""
     if not links:
-        return '<p style="color:var(--muted);text-align:center;padding:2rem;font-size:.92rem;">No quick links configured.</p>'
-    cards = []
+        return ""
+    tiles = []
     for link in links:
         style = icon_for(link["label"])
-        # Determine button text from label
-        verb = "Open" if "dashboard" not in link["label"].lower() else "Open"
-        cards.append(f'''      <div class="integration-card">
-        <div class="header">
-          <div class="logo-box" style="background:{style['bg']};color:{style['fg']};">{style['icon']}</div>
-          <div>
-            <h3>{link['label']}</h3>
-          </div>
-        </div>
-        <a href="{link['url']}" target="_blank" class="btn btn-primary">{verb} →</a>
-      </div>''')
-    return "\n".join(cards)
+        # Short description by label keyword (best-effort)
+        desc = describe_for(link["label"])
+        tiles.append(f'''    <a href="{link['url']}" target="_blank" class="action-card">
+      <div class="icon" style="background:{style['bg']};color:{style['fg']};">{style['icon']}</div>
+      <h3>{link['label']}</h3>
+      <p>{desc}</p>
+    </a>''')
+    return "\n".join(tiles)
+
+
+def describe_for(label: str) -> str:
+    """Short tile description matched by label keyword."""
+    low = label.lower()
+    if "quickbooks" in low: return "Live financial data &amp; transactions"
+    if "puzzle" in low:     return "Real-time financials dashboard"
+    if "tax" in low:        return "Year-end packages &amp; filings"
+    if "payroll" in low or "gusto" in low: return "Payroll records &amp; pay history"
+    if "bank" in low:       return "Bank account portal"
+    if "stripe" in low:     return "Payments dashboard"
+    if "calendar" in low:   return "Schedule a meeting"
+    return "Open dashboard"
 
 
 def generate_client_page(data: dict):
@@ -112,10 +121,10 @@ def generate_client_page(data: dict):
 
     # Payroll tile only renders if client has a payroll_url configured
     if payroll_url:
-        payroll_tile = f'''<a href="{payroll_url}" target="_blank" class="action-card">
-      <div class="icon" style="background:#fef3c7;">💰</div>
+        payroll_tile = f'''    <a href="{payroll_url}" target="_blank" class="action-card">
+      <div class="icon" style="background:#fef3c7;color:#d97706;">💰</div>
       <h3>Payroll</h3>
-      <p>View payroll records and pay history</p>
+      <p>Pay history and payroll records</p>
     </a>'''
     else:
         payroll_tile = ""
@@ -126,7 +135,7 @@ def generate_client_page(data: dict):
         "{{REPORTS_URL}}": data.get("reports_url", "#") or "#",
         "{{UPLOAD_URL}}": data.get("upload_url", "#") or "#",
         "{{PAYROLL_TILE}}": payroll_tile,
-        "{{QUICK_LINKS_HTML}}": render_quick_links_html(quick_links),
+        "{{QUICK_LINK_TILES}}": render_quick_link_tiles(quick_links),
     }
 
     content = template
