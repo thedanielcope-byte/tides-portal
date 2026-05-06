@@ -150,58 +150,6 @@
     }
     .section-header p { color: var(--body); margin-top: .5rem; font-size: .95rem; }
 
-    /* ── REPORTS ────────────────────────────────────── */
-    .reports-card {
-      background: #fff; border: 1px solid var(--border);
-      border-radius: var(--r); padding: 2rem;
-      box-shadow: var(--shadow);
-    }
-    .year-tabs { display: flex; gap: .5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-    .year-tab {
-      padding: .5rem 1.1rem; border-radius: 50px;
-      border: 1px solid var(--border); background: #fff;
-      font-size: .85rem; font-weight: 600; color: var(--body);
-      cursor: pointer; transition: all .2s;
-    }
-    .year-tab.active { background: var(--navy); color: #fff; border-color: var(--navy); }
-    .year-tab:hover:not(.active) { border-color: var(--navy); color: var(--navy); }
-
-    .month-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: .75rem;
-    }
-    .month-card {
-      background: var(--bg-alt);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1rem;
-      text-align: center;
-      transition: all .2s;
-      cursor: pointer;
-      display: block;
-    }
-    .month-card:hover {
-      background: var(--teal-lt);
-      border-color: var(--teal);
-      transform: translateY(-2px);
-    }
-    .month-card .month-label { font-weight: 700; font-size: .9rem; color: var(--ink); }
-    .month-card .month-status {
-      font-size: .7rem; color: var(--muted);
-      margin-top: .25rem; text-transform: uppercase; letter-spacing: .05em;
-    }
-    .month-card.available .month-status { color: var(--teal); font-weight: 700; }
-    .month-card.pending { opacity: .5; cursor: not-allowed; }
-
-    .reports-note {
-      margin-top: 1.5rem; padding: 1rem 1.25rem;
-      background: var(--bg-alt); border-left: 3px solid var(--teal);
-      border-radius: 6px;
-      font-size: .85rem; color: var(--body);
-    }
-    .reports-note strong { color: var(--ink); }
-
     /* ── UPLOAD ─────────────────────────────────────── */
     .upload-card {
       background: linear-gradient(135deg, var(--navy) 0%, #1a3d7a 100%);
@@ -438,75 +386,25 @@
 <!-- MONTHLY REPORTS -->
 <section id="reports" class="section">
   <div class="container">
-    <div class="section-header">
-      <h2>Monthly Reports</h2>
-      <p>Your P&L, balance sheet, cash flow, and executive summary — delivered monthly.</p>
-    </div>
-
-    <div class="mobile-notice">
-      💻 <strong>Desktop recommended:</strong> Report viewing and downloads work best on a laptop or desktop computer.
-    </div>
-
-    <div class="reports-card">
-      <div class="year-tabs">
-        <button class="year-tab active" data-year="2026">2026</button>
-        <button class="year-tab" data-year="2025" style="display:none;">2025</button>
+    <div class="upload-card">
+      <div class="eyebrow" style="background:rgba(33,81,151,.1);border-color:rgba(33,81,151,.25);color:var(--navy);">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--navy);"></span>
+        Financial Reports
       </div>
+      <h3 style="margin-top:.85rem;">Your monthly numbers, all in one place.</h3>
+      <p>Your P&amp;L, balance sheet, cash flow, and executive summary — delivered monthly. Click below to open your secure Reports folder, then navigate to the year and month you'd like to view.</p>
 
-      <div class="month-grid" id="month-grid-2026">
-        <!-- Months are auto-populated. Mark as "available" when you upload reports -->
-        <a href="https://onedrive.live.com/?id=root" target="_blank" class="month-card available">
-          <div class="month-label">January</div>
-          <div class="month-status">View Reports →</div>
-        </a>
-        <a href="https://onedrive.live.com/?id=root" target="_blank" class="month-card available">
-          <div class="month-label">February</div>
-          <div class="month-status">View Reports →</div>
-        </a>
-        <a href="https://onedrive.live.com/?id=root" target="_blank" class="month-card available">
-          <div class="month-label">March</div>
-          <div class="month-status">View Reports →</div>
-        </a>
-        <div class="month-card pending">
-          <div class="month-label">April</div>
-          <div class="month-status">Coming soon</div>
-        </div>
-        <div class="month-card pending">
-          <div class="month-label">May</div>
-          <div class="month-status">—</div>
-        </div>
-        <div class="month-card pending">
-          <div class="month-label">June</div>
-          <div class="month-status">—</div>
-        </div>
-        <div class="month-card pending">
-          <div class="month-label">July</div>
-          <div class="month-status">—</div>
-        </div>
-        <div class="month-card pending">
-          <div class="month-label">August</div>
-          <div class="month-status">—</div>
-        </div>
-        <div class="month-card pending">
-          <div class="month-label">September</div>
-          <div class="month-status">—</div>
-        </div>
-        <div class="month-card pending">
-          <div class="month-label">October</div>
-          <div class="month-status">—</div>
-        </div>
-        <div class="month-card pending">
-          <div class="month-label">November</div>
-          <div class="month-status">—</div>
-        </div>
-        <div class="month-card pending">
-          <div class="month-label">December</div>
-          <div class="month-status">—</div>
-        </div>
-      </div>
+      <a href="https://onedrive.live.com/?id=root" target="_blank" class="btn btn-primary btn-lg">
+        Open Reports Folder →
+      </a>
 
-      <div class="reports-note">
-        <strong>How to access:</strong> Click any month to open the secure OneDrive folder. You can preview or download individual files. Reports are typically posted within 5 business days of month-end.
+      <div class="upload-instructions">
+        <p style="font-size:.92rem;line-height:1.7;">
+          <strong>What you'll find inside:</strong> Folders organized by year, then by month. Each month contains your Profit &amp; Loss Statement, Balance Sheet, Cash Flow Statement, and Executive Summary. Reports are typically posted within 5 business days of month-end.
+        </p>
+        <p style="font-size:.82rem;opacity:.8;margin-top:1rem;">
+          💻 <strong>Desktop recommended:</strong> Viewing and downloading reports works best on a laptop or desktop.
+        </p>
       </div>
     </div>
   </div>
