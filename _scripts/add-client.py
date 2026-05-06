@@ -108,12 +108,24 @@ def generate_client_page(data: dict):
 
     first_name = data["client_name"].split()[0]
     quick_links = parse_quick_links(data.get("quick_links", ""))
+    payroll_url = (data.get("payroll_url") or "").strip()
+
+    # Payroll tile only renders if client has a payroll_url configured
+    if payroll_url:
+        payroll_tile = f'''<a href="{payroll_url}" target="_blank" class="action-card">
+      <div class="icon" style="background:#fef3c7;">💰</div>
+      <h3>Payroll</h3>
+      <p>View payroll records and pay history</p>
+    </a>'''
+    else:
+        payroll_tile = ""
 
     replacements = {
         "{{CLIENT_NAME}}": data["client_name"],
         "{{CLIENT_FIRST_NAME}}": first_name,
         "{{REPORTS_URL}}": data.get("reports_url", "#") or "#",
         "{{UPLOAD_URL}}": data.get("upload_url", "#") or "#",
+        "{{PAYROLL_TILE}}": payroll_tile,
         "{{QUICK_LINKS_HTML}}": render_quick_links_html(quick_links),
     }
 
@@ -173,6 +185,7 @@ def prompt_client():
     data["email"] = input("  Client email (login): ").strip()
     data["reports_url"] = input("  OneDrive Reports folder share link: ").strip() or "#"
     data["upload_url"] = input("  OneDrive Request Files upload link: ").strip() or "#"
+    data["payroll_url"] = input("  OneDrive Payroll folder share link (leave blank if no payroll): ").strip()
     print("\n  Quick links — enter Label|URL pairs separated by ';' (semicolons).")
     print("  Example: QuickBooks Online|https://qbo.intuit.com/app/123;Puzzle Dashboard|https://puzzle.io/a/abc")
     print("  Leave blank to skip.")
@@ -182,7 +195,7 @@ def prompt_client():
 
 def append_to_csv(data: dict):
     """Add a client row to clients.csv. Creates the file if missing."""
-    fieldnames = ["slug", "client_name", "email", "reports_url", "upload_url", "quick_links"]
+    fieldnames = ["slug", "client_name", "email", "reports_url", "upload_url", "payroll_url", "quick_links"]
     is_new = not CSV_PATH.exists()
     with open(CSV_PATH, "a", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
